@@ -8,3 +8,8 @@ body {
     cursor: not-allowed;
   }
   
+  .used-card {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  

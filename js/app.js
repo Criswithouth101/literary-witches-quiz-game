@@ -13,13 +13,13 @@ const quizQuestions = [
         hint: "She also wrote 'Jazz'."
       },
       {
-        question: "The Interiority Witch: Famous Latin American poet who's poetry focused on silence, absence, madnes and death. She died at the age of 36 years old.",
+        question: "The Intellectual Witch: Dedicated educator, poet and engaged and committed intellectual who defended the rights of children, women, and the poor; the freedoms of democracy; and the need for peace in times of social, political, and ideological conflicts, not only in Latin America but in the whole world.",
         answers: ["Gabriela Mistral", "Cristina Peri Rossi", "Alejandra Pizarnik", "Ida Vitale"],
-        correct: "Alejandra Pizarnik",
-        hint: "She wrote 'The Last Innocence' and 'The Lost Adventures'."
+        correct: "Gabriela Mistral",
+        hint: "She's the first Latin American author to receive a Novel Prize in Literature."
       },
       {
-        question: "The Transformation Witch: Select the novel written by Mary Shelly: ",
+        question: "The Transition Witch: Select the novel written by Mary Shelly: ",
         answers: ["Jane Eyre", "Little Women", "Pride & Prejudice", "Frankenstein"],
         correct: "Frankenstein",
         hint: "The cycle of life."
@@ -36,21 +36,33 @@ const quizQuestions = [
         correct: "The House Is Black",
         hint: "Filmend in 1963, the film is in colours Black and white."
       },
+      {
+        question: "The Storyteller Witch: This Chilean contemporary author said “Writing is a process, a journey into memory and the soul.”. Who was she?",
+        answers: ["Alejandra Pizarnik", "Clarice Lispector", "Maria Luisa Bombal", "Isabel Allende"],
+        correct: "Isabel Allende",
+        hint: "She wrote 'The House of Spirits'."
+      },
+      {
+        question: " The Transformation Witch: Yumiko Kurahashi's work was influenced by Kafka and experimental fiction, questioning prevailing societal norms on sexual relations, violence and social order. Which of the following was her first English-translated antinovels? ",
+        answers: ["The Woman with the Flying Head", "Sweet Bean Paste", "Tokyo Blues", "Heaven"],
+        correct: "The Woman with the Flying Head",
+        hint: "Think bizarre. Freaking out Kafka-style."
+      },
 
 ];
 
 const witchAvatars = [
-    { img: 'witch1.jpeg', label: 'Initiate Witch' },
-    { img: 'witch2.jpeg', label: 'Forest Witch' },
-    { img: 'witch3.jpeg', label: 'Storm Witch' },
-    { img: 'witch4.jpeg', label: 'Oracle Witch' },
-    { img: 'hecate.jpeg', label: 'Supreme Witch: Hecate' }
+    { img: 'pics/witch1.jpeg', label: 'Initiate Witch' },
+    { img: 'pics/witch2.jpeg', label: 'Forest Witch' },
+    { img: 'pics/witch3.jpeg', label: 'Storm Witch' },
+    { img: 'pics/witch4.jpeg', label: 'Oracle Witch' },
+    { img: 'pics/hecate.jpeg', label: 'Supreme Witch: Hecate' }
   ];
   
   const humanAvatars = [
-    { img: 'human1.png', label: 'Confused Human' },
-    { img: 'human2.png', label: 'Boring Human' },
-    { img: 'human3.png', label: 'Utterly Normal Human' }
+    { img: 'pics/human1.jpeg', label: 'Confused Human' },
+    { img: 'pics/human2.svg', label: 'Normal Human' },
+    { img: 'pics/human3.jpeg', label: 'A Pilgrim' }
   ];
   
 /*-------------------------------- Variables --------------------------------*/
@@ -76,27 +88,29 @@ const avatarImage = document.getElementById('avatar-image');
 const avatarName = document.getElementById('avatar-name');
 const scoreDisplay = document.getElementById('score');
 const levelDisplay = document.getElementById('level');
-
+const playAgainButton = document.getElementById('play-again');
 
 
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
     console.log('calling the function that loads the page', cards);
-    playerAvatar = 'very normal human';
+    playerAvatar = 'Initiate Witch';
     correctAnswers = 0;
     wrongAnswers = 0;
     skipRemain = 3;
     hintRemain = 3;
     gameOver = false;
-    
+    shuffledQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
+    dealtQuestions = shuffledQuestions.slice(0, 5); 
+    remainingQuestions = shuffledQuestions.slice(5); 
 
 };
 function selectingCard(event) {
     console.log('calling the function that assigns the click to a card')
     const cardEl = event.target;
     const cardIndex = cardEl.dataset.card;
-    currentQuestion = quizQuestions[cardIndex];
+    currentQuestion = dealtQuestions[cardIndex];
     console.log("Active question is now:", currentQuestion);
 
     document.getElementById('card-deck').classList.add('hidden');
@@ -106,19 +120,23 @@ function selectingCard(event) {
     currentQuestion.answers.forEach((answer, index) => {
         answerButtons[index].textContent = answer;
         answerButtons[index].dataset.correct = (answer === currentQuestion.correct);
-}); // check the text in the buttons 
-hintText.classList.add('hidden');
-hintText.textContent = '';
-enableAnswerButtons();
+        }); // check the text in the buttons 
+        cardEl.disabled = true;
+        cardEl.classList.add('used-card');
+        hintText.classList.add('hidden');
+        hintText.textContent = '';
+        enableAnswerButtons();
 
-}
+     }
 function answerSelected(event) {
       const isCorrect = event.target.dataset.correct === "true";
       if (isCorrect) {
         correctAnswers++;
+        disableAnswerButtons();
       } else {
         wrongAnswers++;
         disableAnswerButtons();
+        alert("You’ve lost your magic! Wrong answer. Select another card or skip.");
       }   
       console.log("Answer is correct:", isCorrect);
       console.log("Correct answers:", correctAnswers);
@@ -140,67 +158,82 @@ function showHint(event) {
     
 }
 function skipQuestion() {
-    if (skipRemain <= 0) return;
+    if (skipRemain <= 0 || remainingQuestions.length === 0) return;
   
     skipRemain--;
     skipButton.textContent = `Skip (${skipRemain} left)`;
     if (skipRemain === 0) skipButton.disabled = true;
   
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * quizQuestions.length);
-    } while (quizQuestions[newIndex] === currentQuestion);
+    
+    currentQuestion = remainingQuestions.shift();
+    console.log("Skipped to new question:", currentQuestion);
   
-    currentQuestion = quizQuestions[newIndex];
-    console.log("other Q from skip:", currentQuestion);
-  
+    
     document.getElementById('card-deck').classList.add('hidden');
     document.getElementById('question-box').classList.remove('hidden');
   
     document.getElementById('question-text').textContent = currentQuestion.question;
-  
     hintText.textContent = '';
     hintText.classList.add('hidden');
   
-    const answerButtons = document.querySelectorAll('.answer-button');
-    currentQuestion.answers.forEach((answer, index) => {
-      answerButtons[index].textContent = answer;
-      answerButtons[index].dataset.correct = (answer === currentQuestion.correct);
-      answerButtons[index].disabled = false; 
+    
+    answerButtons.forEach((button, index) => {
+      button.textContent = currentQuestion.answers[index];
+      button.dataset.correct = (currentQuestion.answers[index] === currentQuestion.correct);
+      button.disabled = false;
+      button.classList.remove('disabled');
     });
-    enableAnswerButtons();
+  
+    enableAnswerButtons(); 
   }
   
+  
   function updateAvatar() {
-    // Update score display
     scoreDisplay.textContent = `Correct: ${correctAnswers} | Wrong: ${wrongAnswers}`;
   
-    if (wrongAnswers >= 3) {
-      const human = humanAvatars[Math.min(wrongAnswers - 1, humanAvatars.length - 1)];
+    const maxWrongs = humanAvatars.length;
+  
+
+    if (wrongAnswers >= maxWrongs && correctAnswers === 0) {
+      const human = humanAvatars[humanAvatars.length - 1];
       avatarImage.innerHTML = `<img src="${human.img}" alt="Human Avatar">`;
       avatarName.textContent = human.label;
       levelDisplay.textContent = 'You’ve been cast out of the coven!';
       gameOver = true;
-        updateAvatar();
-        disableAnswerButtons();
+      disableAnswerButtons();
+      gameOverHandler();
       return;
     }
   
-    const witch = witchAvatars[Math.min(correctAnswers, witchAvatars.length - 1)];
-    avatarImage.innerHTML = `<img src="${witch.img}" alt="Witch Avatar">`;
-    avatarName.textContent = witch.label;
+    //  Correct answers take visual priority — show witch if any progress
+    if (correctAnswers > 0) {
+      const witchIndex = Math.min(correctAnswers, witchAvatars.length - 1);
+      const witch = witchAvatars[witchIndex];
+      avatarImage.innerHTML = `<img src="${witch.img}" alt="Witch Avatar">`;
+      avatarName.textContent = witch.label;
+      levelDisplay.textContent = (correctAnswers >= witchAvatars.length - 1)
+        ? 'You’ve reached the Supreme Coven Level: Hecate!'
+        : witch.label;
+      return;
+    }
   
-    levelDisplay.textContent = correctAnswers === 5
-      ? 'You’ve reached the Supreme Coven Level: Hecate!'
-      : witch.label;
+    // Otherwise, show current human state (only if no correct progress)
+    if (wrongAnswers > 0) {
+      const humanIndex = Math.min(wrongAnswers - 1, humanAvatars.length - 1);
+      const human = humanAvatars[humanIndex];
+      avatarImage.innerHTML = `<img src="${human.img}" alt="Human Avatar">`;
+      avatarName.textContent = human.label;
+      levelDisplay.textContent = 'Your magic flickers... stay sharp!';
+      return;
+    }
+  
   }
-
+  
   function disableAnswerButtons() {
     answerButtons.forEach(button => {
       button.disabled = true;
       button.classList.add('disabled');
     });
-    alert("You’ve lost your magic! Wrong answer. Select another card.")
   }
   function enableAnswerButtons() {
     answerButtons.forEach(button => {
@@ -208,6 +241,55 @@ function skipQuestion() {
       button.classList.remove('disabled');
     });
   }
+  
+  function gameOverHandler() {
+    
+    skipButton.disabled = true;
+    hintButton.disabled = true;
+  
+    answerButtons.forEach(button => {
+      button.disabled = true;
+    });
+  
+    cards.forEach(card => {
+      card.disabled = true;
+      card.classList.add('used-card');
+    });
+    levelDisplay.textContent = "Game over. You've lost your magic!";
+    playAgainButton.classList.remove('hidden');
+  }
+
+  function resetGame() {
+    init(); 
+    avatarImage.innerHTML = '';
+    avatarName.textContent = 'Find yourself.';
+    levelDisplay.textContent = 'Your journey begins...';
+    scoreDisplay.textContent = 'Correct: 0 | Wrong: 0';
+
+    hintText.textContent = '';
+    hintText.classList.add('hidden');
+    document.getElementById('question-box').classList.add('hidden');
+    document.getElementById('card-deck').classList.remove('hidden');
+  
+    cards.forEach(card => {
+      card.disabled = false;
+      card.classList.remove('used-card');
+    });
+  
+    answerButtons.forEach(button => {
+      button.disabled = false;
+      button.classList.remove('disabled');
+    });
+  
+    skipButton.disabled = false;
+    skipButton.textContent = `Skip (${skipRemain} left)`;
+    hintButton.disabled = false;
+    hintButton.textContent = `Hints (${hintRemain} left)`;
+
+    playAgainButton.classList.add('hidden');
+  }
+  
+  
   
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -223,6 +305,8 @@ answerButtons.forEach(button => {
 
 hintButton.addEventListener('click', showHint);
 skipButton.addEventListener('click', skipQuestion);
+playAgainButton.addEventListener('click', resetGame);
+
 
 
   
