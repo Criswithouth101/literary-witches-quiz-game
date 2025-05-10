@@ -6,15 +6,19 @@ body {
     color: #f4f4f4;
     text-align: center;
 }
+/* STARTS GAME*/
+h1, h2, #start-screen {
+  font-family: "Uncial Antiqua", system-ui;
+}
 #start-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-image: url('backgrounds/mystic-forest.jpg'); /*FIX THIS!!!!!!*/
+    height: 170vh;
+    background-image: url('../pics/start-background.jpeg'); /*FIX THIS!!!!!!*/
     background-size: cover;
-    background-position: center;
+    background-position:center;
   }
   #start-screen h1 {
     font-size: 2.5rem;
@@ -31,15 +35,44 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(92, 54, 100, 0.4);
     transition: background-color 0.3s ease;
+    font-family: "Uncial Antiqua", system-ui;
   }
   #start-button:hover {
     background-color: #957dad;
+  }
+
+  /* DURING THE GAME*/
+  #game-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 1rem;
+  }
+  
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  
+  #question-box {
+    flex: 2;
+    padding: 1rem;
+    background-color: #fff8fc;
+    border-radius: 10px;
   }
   #card-deck {
     margin: 40px auto;
     display: flex;
     justify-content: center;
     gap: 10px;
+    flex-wrap: wrap;
   }
   .card {
     width: 80px;
@@ -56,13 +89,49 @@ body {
     transform: scale(1.1);
     background-color: #574b90;
   }
-  .timer {
+  
+  #avatar-box {
+    flex: 1;
+    background: #f1f1ff;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 30px;
+    color: #040404;
+    font-family: "Uncial Antiqua", system-ui;
+  }
+  #avatar-image img {
+    width: 150px;
+    height: 200px;
+    border-radius: 12px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  
+  #avatar-name {
+    font-size: 1.4rem;
+    margin-top: 10px;
+  }
+  
+  #level-display {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #040404;
+    margin-top: 5px;
+  }
+  #timer-box {
+    background: #f9f0f6;
+    padding: 1rem;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+  #timer {
     font-size: 1.5rem;
     margin-top: 20px;
     color: #fdd835;         /*FIX THIS. CHANGE THE COLOR!!!!!!*/
   }
 
-  /* Question Box */
+
 #question-box {
     background-color: #2a2a2a;
     padding: 30px;
@@ -99,30 +168,7 @@ body {
     background-color: #999;
     cursor: not-allowed;
   }
-  #avatar-section {
-    margin-top: 30px;
-    text-align: center;
-  }
   
-  #avatar-image img {
-    width: 150px;
-    height: auto;
-    border-radius: 12px;
-    border: 2px solid #f4f4f4;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  }
-  
-  #avatar-name {
-    font-size: 1.4rem;
-    margin-top: 10px;
-  }
-  
-  #level-display {
-    font-size: 1.2rem;
-    font-style: italic;
-    color: #fdd835;
-    margin-top: 5px;
-  }
   .correct-answer {
     background-color: #2e7d32 !important;
     color: white;
@@ -133,8 +179,43 @@ body {
     color: white;
   }
   
-  
-.disabled {
+#hint-button,
+#skip-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 10px 10px 0 0;
+  background-color: #3b2e5a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#hint-button:hover,
+#skip-button:hover {
+  background-color: #5e4a8c;
+  transform: scale(1.05);
+}
+
+#hint-button:disabled,
+#skip-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+#hint-text {
+  font-style: italic;
+  color: #ffe082;
+  margin-top: 15px;
+}
+
+   /*DISABLED FOR START BUTTON (JS IS SET TO CHANGE AFTER CLICK START */
+   .disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -143,8 +224,66 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  #card-deck, #timer, #question-box, #help-buttons {
+  #card-deck, #timer-box, #question-box, #help-buttons, #avatar-box, #play-again {
     display: none;
   }
+
+  /*EFFECTS*/
+  #sparkle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  }
   
+  .sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #fff 0%, #ffecb3 40%, transparent 70%);
+    border-radius: 50%;
+    animation: sparkle-fade 2s ease-out forwards;
+  }
+  
+  @keyframes sparkle-fade {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  /*mobile friendly responsive*/
+  @media screen and (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+  
+    #question-box {
+      width: 95%;
+      padding: 20px;
+    }
+  
+    .card,
+    .answer-button,
+    #hint-button,
+    #skip-button {
+      font-size: 1rem;
+      padding: 10px;
+    }
+  
+    #avatar-image img {
+      width: 120px;
+    }
+  
+    #timer {
+      font-size: 1.1rem;
+    }
+  }
   

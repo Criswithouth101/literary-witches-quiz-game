@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Literary Witches Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <script defer src="./js/app.js"></script>
 </head>
@@ -16,6 +19,8 @@
         <button id="start-button">Start Game</button>
       </div>
       
+<div id="game-container">
+ <div class="top-row">
       <section id="card-deck">
         <p id="tarot-deck">Writers' tarot</p>
         <button class="card" data-card="0">?</button>
@@ -25,16 +30,15 @@
         <button class="card" data-card="4">?</button>
       </section>      
 
-    <div class="timer">
+    <div id="timer-box">
         <audio id="tick-sound" src="sounds/Timer.m4a" preload="auto"></audio> 
         <p id="timer">Time left: 15s</p>
-    
     </div>
+ </div>
 
-</div>
-
+<div class="bottom-row">
     <section id="question-box">
-        <p id="question-text">Question goes here</p>
+        <p id="question-text">Questions</p>
         <p id="hint-text" class="hidden">Hint</p>
         <div id="answers">
             <button class="answer-button" id="0">?</button>
@@ -42,19 +46,24 @@
             <button class="answer-button" id="2">?</button>
             <button class="answer-button" id="3">?</button>
         </div>
-  </section>
+        </section>
+        
     <div id="help-buttons">
         <button id="hint-button">Hint</button>
         <button id="skip-button">Skip (3 left)</button>
     </div>
 
-    <section id="avatar box">
+    <section id="avatar-box">
+        <div id="sparkle-container"></div>
         <p>Your Avatar:</p>
-    <div id="avatar-image"><!-- Avatar image or representation --></div>
-    <div id="avatar-name"><!-- Name of the person in the image --></div>
-    <div id="score">0</div>
-    <p id="level"> Coven level</p>
-    </section>
-    <button id="play-again" class="hidden"> Play Again</button>
+        <div id="avatar-image"></div>
+        <div id="avatar-name"></div>
+        <div id="score">0</div>
+        <p id="level">Coven level</p>
+      </section>
+    </div>
+  </div>
+
+  <button id="play-again" class="hidden">Play Again</button>
 </body>
 </html>

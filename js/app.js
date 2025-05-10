@@ -79,6 +79,7 @@ let timerInterval;
 let timeLeft = 15;
 let tickSound = new Audio("sounds/Timer.m4a");
 let backgroundSound = new Audio("sounds/winner.m4a");
+let winSound = new Audio("sounds/hecate-win.m4a");
 
 
 
@@ -227,8 +228,8 @@ function skipQuestion() {
       if (correctAnswers === 4) {
         levelDisplay.textContent = 'You’ve reached the Supreme Coven Level: Hecate!';
         backgroundSound.pause();
-        const winSound = new Audio("sounds/hecate-win.m4a");
         winSound.play();
+        triggerSparkleEffect();
       } else {
         levelDisplay.textContent = witch.label;
       }
@@ -332,17 +333,22 @@ function skipQuestion() {
     backgroundSound.play()
     backgroundSound.loop = true;
   }
-  
-  document.getElementById('start-button').addEventListener('click', function() {
-    document.getElementById('start-screen').style.display = 'none';
-    document.getElementById('card-deck').style.display = 'block';
-    document.getElementById('question-box').style.display = 'block';
-    document.getElementById('help-buttons').style.display = 'block';
-    document.getElementById('timer').style.display = 'block';
+
+    function triggerSparkleEffect() {
+      const container = document.getElementById('sparkle-container');
+      for (let i = 0; i < 30; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.left = `${Math.random() * 100}%`;
+        container.appendChild(sparkle);
     
-    init();  
-    });
-  
+        setTimeout(() => {
+          sparkle.remove();
+        }, 2000);
+      }
+    }
+    
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -358,6 +364,16 @@ answerButtons.forEach(button => {
 hintButton.addEventListener('click', showHint);
 skipButton.addEventListener('click', skipQuestion);
 playAgainButton.addEventListener('click', resetGame);
+
+document.getElementById('start-button').addEventListener('click', function() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('card-deck').style.display = 'block';
+  document.getElementById('question-box').style.display = 'block';
+  document.getElementById('help-buttons').style.display = 'block';
+  document.getElementById('timer-box').style.display = 'block';
+  document.getElementById('avatar-box').style.display = 'block';
+  init();  
+  });
 
 
 
