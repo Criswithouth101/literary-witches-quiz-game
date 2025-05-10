@@ -75,6 +75,10 @@ let hintRemain = null;
 let gameOver = null;
 let currentQuestion = null;
 let activeQuestion = currentQuestion;
+let timerInterval;
+let timeLeft = 15;
+let tickSound = new Audio("sounds/Timer.m4a");
+let backgroundSound = new Audio("sounds/winner.m4a");
 
 
 
@@ -101,6 +105,12 @@ function init() {
     skipRemain = 3;
     hintRemain = 3;
     gameOver = false;
+
+    avatarImage.innerHTML = `<img src="${witchAvatars[0].img}" alt="Witch Avatar">`;
+    avatarName.textContent = 'Find yourself.';
+    levelDisplay.textContent = 'Your journey begins...';
+    scoreDisplay.textContent = 'Correct: 0 | Wrong: 0';
+
     shuffledQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
     dealtQuestions = shuffledQuestions.slice(0, 5); 
     remainingQuestions = shuffledQuestions.slice(5); 
@@ -126,9 +136,11 @@ function selectingCard(event) {
         hintText.classList.add('hidden');
         hintText.textContent = '';
         enableAnswerButtons();
-
+        startTimer();
+        gameSound();
      }
 function answerSelected(event) {
+        stopTimer();
       const isCorrect = event.target.dataset.correct === "true";
       if (isCorrect) {
         correctAnswers++;
@@ -184,7 +196,8 @@ function skipQuestion() {
       button.classList.remove('disabled');
     });
   
-    enableAnswerButtons(); 
+    enableAnswerButtons();
+    startTimer(); 
   }
   
   
@@ -205,19 +218,22 @@ function skipQuestion() {
       return;
     }
   
-    //  Correct answers take visual priority — show witch if any progress
     if (correctAnswers > 0) {
       const witchIndex = Math.min(correctAnswers, witchAvatars.length - 1);
       const witch = witchAvatars[witchIndex];
       avatarImage.innerHTML = `<img src="${witch.img}" alt="Witch Avatar">`;
       avatarName.textContent = witch.label;
-      levelDisplay.textContent = (correctAnswers >= witchAvatars.length - 1)
-        ? 'You’ve reached the Supreme Coven Level: Hecate!'
-        : witch.label;
-      return;
+
+      if (correctAnswers === 4) {
+        levelDisplay.textContent = 'You’ve reached the Supreme Coven Level: Hecate!';
+        backgroundSound.pause();
+        const winSound = new Audio("sounds/hecate-win.m4a");
+        winSound.play();
+      } else {
+        levelDisplay.textContent = witch.label;
+      }
     }
   
-    // Otherwise, show current human state (only if no correct progress)
     if (wrongAnswers > 0) {
       const humanIndex = Math.min(wrongAnswers - 1, humanAvatars.length - 1);
       const human = humanAvatars[humanIndex];
@@ -261,10 +277,6 @@ function skipQuestion() {
 
   function resetGame() {
     init(); 
-    avatarImage.innerHTML = '';
-    avatarName.textContent = 'Find yourself.';
-    levelDisplay.textContent = 'Your journey begins...';
-    scoreDisplay.textContent = 'Correct: 0 | Wrong: 0';
 
     hintText.textContent = '';
     hintText.classList.add('hidden');
@@ -289,7 +301,47 @@ function skipQuestion() {
     playAgainButton.classList.add('hidden');
   }
   
+  function startTimer() {
+    timeLeft = 15;
+    document.getElementById('timer').textContent = `Time left: ${timeLeft}s`;
   
+    tickSound.currentTime = 0; 
+    tickSound.loop = true;
+    tickSound.play();
+  
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer').textContent = `Time left: ${timeLeft}s`;
+  
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        tickSound.pause();
+        tickSound.currentTime = 0;
+        disableAnswerButtons();
+        window.alert("⏰ Time’s up! You didn’t answer in time.");
+      }
+    }, 1000);
+  }
+  function stopTimer() {
+    clearInterval(timerInterval);
+    tickSound.pause();
+    tickSound.currentTime = 0;
+  }
+  
+  function gameSound() {
+    backgroundSound.play()
+    backgroundSound.loop = true;
+  }
+  
+  document.getElementById('start-button').addEventListener('click', function() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('card-deck').style.display = 'block';
+    document.getElementById('question-box').style.display = 'block';
+    document.getElementById('help-buttons').style.display = 'block';
+    document.getElementById('timer').style.display = 'block';
+    
+    init();  
+    });
   
 
 /*----------------------------- Event Listeners -----------------------------*/

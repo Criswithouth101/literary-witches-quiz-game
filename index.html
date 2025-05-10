@@ -26,6 +26,7 @@
       </section>      
 
     <div class="timer">
+        <audio id="tick-sound" src="sounds/Timer.m4a" preload="auto"></audio> 
         <p id="timer">Time left: 15s</p>
     
     </div>
@@ -34,7 +35,7 @@
 
     <section id="question-box">
         <p id="question-text">Question goes here</p>
-        <p id="hint-text" class="hidden">Hint goes here</p>
+        <p id="hint-text" class="hidden">Hint</p>
         <div id="answers">
             <button class="answer-button" id="0">?</button>
             <button class="answer-button" id="1">?</button>
@@ -42,7 +43,7 @@
             <button class="answer-button" id="3">?</button>
         </div>
   </section>
-    <div class="help buttons">
+    <div id="help-buttons">
         <button id="hint-button">Hint</button>
         <button id="skip-button">Skip (3 left)</button>
     </div>
