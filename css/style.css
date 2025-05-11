@@ -87,6 +87,7 @@ h2 {
   #answer-message {
     font-size: 1.5rem;
   }
+  
   .card {
     width: 120px;
     height: 160px;
@@ -224,19 +225,29 @@ h2 {
 }
 
 #hint-button:disabled,
-#skip-button:disabled, 
-#play-again:disabled {
+#skip-button:disabled {
   background-color: #888;
   cursor: not-allowed;
 }
-
 #play-again {
-  background-color: #718573;
+  position: fixed;
+  background: rgba(30, 10, 50, 0.95);
   color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
-
+#play-again:hover {
+  background: rgba(50, 20, 70, 0.95);
+}
+.hidden {
+  display: none;
+}
    /*DISABLED FOR START BUTTON (JS IS SET TO CHANGE AFTER CLICK START */
    .disabled {
     opacity: 0.5;
@@ -289,6 +300,14 @@ h2 {
   
   .fade-in {
     animation: fadeIn 2.5s ease forwards;
+  }
+  @keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  #play-again {
+    animation: fadeInOverlay 1s ease forwards;
   }
   
   

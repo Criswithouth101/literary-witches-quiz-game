@@ -1,4 +1,6 @@
 /*-------------------------------- Constants --------------------------------*/
+console.log('Script loaded!');
+
 const quizQuestions = [
     {
         question: "The Trickery Witch: Who wrote nearly 70 detective novels, making her the most popular novelist in all history?",
@@ -286,7 +288,7 @@ function skipQuestion() {
   }
   
   function gameOverHandler() {
-    
+    console.log('gameover works');
     skipButton.disabled = true;
     hintButton.disabled = true;
   
@@ -307,25 +309,33 @@ function skipQuestion() {
 
   function resetGame() {
     init(); 
+    console.log('reset works');
 
     hintText.textContent = '';
     hintText.classList.add('hidden');
     questionText.textContent = 'Question';
     document.getElementById('card-deck').classList.remove('hidden');
-  
+    document.getElementById('question-box').classList.add('hidden');
+
     cards.forEach(card => {
       card.disabled = false;
       card.classList.remove('used-card');
     });
     
-    answerButtons.disable = true;
-    answerButtons.textContent = '?';
+ answerButtons.forEach(button => {
+    button.disabled = true;
+    button.textContent = '?'; 
+    button.classList.add('disabled');
+  });
+
     skipButton.disabled = false;
     skipButton.textContent = `Skip (${skipRemain} left)`;
     hintButton.disabled = false;
     hintButton.textContent = `Hints (${hintRemain} left)`;
 
     playAgainButton.classList.add('hidden');
+    answerMessage.classList.add('hidden');
+    console.log('reset work too');
   }
   
   function startTimer() {
@@ -377,6 +387,7 @@ function skipQuestion() {
           sparkle.remove();
         }, 2000);
       }
+      console.log('sparks in');
     }
     
 
@@ -393,8 +404,10 @@ answerButtons.forEach(button => {
 
 hintButton.addEventListener('click', showHint);
 skipButton.addEventListener('click', skipQuestion);
-playAgainButton.addEventListener('click', resetGame);
-
+playAgainButton.addEventListener('click', () => {
+  console.log('Play Again clicked');
+  resetGame();
+});
 //event listener to start the game 
 document.getElementById('start-button').addEventListener('click', function() {
   document.getElementById('start-screen').style.display = 'none';
