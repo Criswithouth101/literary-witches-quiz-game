@@ -64,6 +64,13 @@ const witchAvatars = [
     { img: 'pics/human2.svg', label: 'Normal Human' },
     { img: 'pics/human3.jpeg', label: 'A Pilgrim' }
   ];
+const tarotCards = [
+  { img: 'pics/tarot-cards/tarot-chariot.jpeg'},
+  { img: 'pics/tarot-cards/tarot-death.jpeg'},
+  { img: 'pics/tarot-cards/tarot-lovers.jpeg'},
+  { img: 'pics/tarot-cards/tarot-rings.jpeg'},
+  { img: 'pics/tarot-cards/tarot-strength.jpeg'}
+];
   
 /*-------------------------------- Variables --------------------------------*/
 
@@ -116,6 +123,14 @@ function init() {
     dealtQuestions = shuffledQuestions.slice(0, 5); 
     remainingQuestions = shuffledQuestions.slice(5); 
 
+    tarotCards.forEach((card, index) => {
+      if (cards[index]) {
+        cards[index].style.backgroundImage = `url('${card.img}')`;
+        cards[index].style.backgroundSize = 'cover';
+        cards[index].style.backgroundPosition = 'center';
+        cards[index].textContent = '';
+      }
+    });
 };
 function selectingCard(event) {
     console.log('calling the function that assigns the click to a card')

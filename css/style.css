@@ -7,20 +7,27 @@ body {
     text-align: center;
 }
 /* STARTS GAME*/
-h1, h2, #start-screen {
-  font-family: "Uncial Antiqua", system-ui;
+h1 {
+  font-family: "Emilys Candy", serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+h2 {
+  font-family: "Emilys Candy", serif;
+  letter-spacing: 2px;
 }
 #start-screen {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
     justify-content: center;
-    height: 170vh;
+    height: 100vh;
     background-image: url('../pics/start-background.jpeg'); /*FIX THIS!!!!!!*/
     background-size: cover;
     background-position:center;
   }
   #start-screen h1 {
+    font-family: "Uncial Antiqua", system-ui;
     font-size: 2.5rem;
     margin-bottom: 20px;
     text-shadow: 2px 2px 6px black;
@@ -35,7 +42,7 @@ h1, h2, #start-screen {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(92, 54, 100, 0.4);
     transition: background-color 0.3s ease;
-    font-family: "Uncial Antiqua", system-ui;
+    font-family: "Rye", serif;
   }
   #start-button:hover {
     background-color: #957dad;
@@ -66,6 +73,8 @@ h1, h2, #start-screen {
     padding: 1rem;
     background-color: #fff8fc;
     border-radius: 10px;
+    font-family: "Rye", serif;
+    
   }
   #card-deck {
     margin: 40px auto;
@@ -73,15 +82,18 @@ h1, h2, #start-screen {
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
+    font-family: "Uncial Antiqua", system-ui;
   }
   .card {
     width: 80px;
     height: 120px;
     font-size: 2rem;
-    background-color: #db8a74;   /*FIX THIS. ADD TAROT!!!!!!*/
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border: 2px solid #f4f4f4;
     border-radius: 12px;
-    color: white;
+    color: transparent;
     cursor: pointer;
     transition: transform 0.2s ease; 
   }
@@ -120,15 +132,21 @@ h1, h2, #start-screen {
     margin-top: 5px;
   }
   #timer-box {
-    background: #f9f0f6;
+    background: #dfb49f;
     padding: 1rem;
     border-radius: 10px;
     font-weight: bold;
+    font-family: "Nosifer", sans-serif;
   }
+  #timer-box:hover, #timer:hover {
+  background-color: #8c8895;
+  color:#370758;
+  transform: scale(1.05);
+}
   #timer {
     font-size: 1.5rem;
     margin-top: 20px;
-    color: #fdd835;         /*FIX THIS. CHANGE THE COLOR!!!!!!*/
+    color: #590a0a;         /*FIX THIS. CHANGE THE COLOR!!!!!!*/
   }
 
 
@@ -184,7 +202,7 @@ h1, h2, #start-screen {
   padding: 10px 20px;
   font-size: 1rem;
   margin: 10px 10px 0 0;
-  background-color: #3b2e5a;
+  background-color: #718573;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -193,6 +211,7 @@ h1, h2, #start-screen {
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  font-family: "Rye", serif;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
