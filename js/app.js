@@ -65,11 +65,11 @@ const witchAvatars = [
     { img: 'pics/human3.jpeg', label: 'A Pilgrim' }
   ];
 const tarotCards = [
-  { img: 'pics/tarot-cards/tarot-chariot.jpeg'},
-  { img: 'pics/tarot-cards/tarot-death.jpeg'},
-  { img: 'pics/tarot-cards/tarot-lovers.jpeg'},
-  { img: 'pics/tarot-cards/tarot-rings.jpeg'},
-  { img: 'pics/tarot-cards/tarot-strength.jpeg'}
+  { img: 'pics/tarot-cards/tarot-chariot.jpeg', label: 'The Chariot'},
+  { img: 'pics/tarot-cards/tarot-death.jpeg', label: 'The Death'},
+  { img: 'pics/tarot-cards/tarot-lovers.jpeg', label: 'The Lovers'},
+  { img: 'pics/tarot-cards/tarot-rings.jpeg', label: 'The Ring Holder'},
+  { img: 'pics/tarot-cards/tarot-strength.jpeg', label: 'The Strenght'}
 ];
   
 /*-------------------------------- Variables --------------------------------*/
@@ -101,8 +101,8 @@ const avatarName = document.getElementById('avatar-name');
 const scoreDisplay = document.getElementById('score');
 const levelDisplay = document.getElementById('level');
 const playAgainButton = document.getElementById('play-again');
-
-
+const answerMessage = document.getElementById('answer-message');
+const questionText = document.getElementById('question-text');
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
@@ -113,6 +113,7 @@ function init() {
     skipRemain = 3;
     hintRemain = 3;
     gameOver = false;
+    disableAnswerButtons();
 
     avatarImage.innerHTML = `<img src="${witchAvatars[0].img}" alt="Witch Avatar">`;
     avatarName.textContent = 'Find yourself.';
@@ -130,6 +131,7 @@ function init() {
         cards[index].style.backgroundPosition = 'center';
         cards[index].textContent = '';
       }
+      
     });
 };
 function selectingCard(event) {
@@ -137,7 +139,7 @@ function selectingCard(event) {
     const cardEl = event.target;
     const cardIndex = cardEl.dataset.card;
     currentQuestion = dealtQuestions[cardIndex];
-    console.log("Active question is now:", currentQuestion);
+    console.log("Active question now:", currentQuestion);
 
     document.getElementById('card-deck').classList.add('hidden');
     document.getElementById('question-box').classList.remove('hidden');
@@ -146,7 +148,7 @@ function selectingCard(event) {
     currentQuestion.answers.forEach((answer, index) => {
         answerButtons[index].textContent = answer;
         answerButtons[index].dataset.correct = (answer === currentQuestion.correct);
-        }); // check the text in the buttons 
+        }); //checking the text in the buttons 
         cardEl.disabled = true;
         cardEl.classList.add('used-card');
         hintText.classList.add('hidden');
@@ -161,12 +163,21 @@ function answerSelected(event) {
       if (isCorrect) {
         correctAnswers++;
         disableAnswerButtons();
+        answerMessage.textContent = "There's magic in you! Correct";
+        answerMessage.classList.remove('hidden')
+        answerMessage.classList.remove('fade-in');
+        void answerMessage.offsetWidth;
+        answerMessage.classList.add('fade-in');
       } else {
         wrongAnswers++;
         disableAnswerButtons();
-        alert("You’ve lost your magic! Wrong answer. Select another card or skip.");
+        answerMessage.textContent = "You’ve lost your magic! Wrong answer. Select another card or skip.";
+        answerMessage.classList.remove('hidden')
+        answerMessage.classList.remove('fade-in');
+        void answerMessage.offsetWidth; 
+        answerMessage.classList.add('fade-in');
       }   
-      console.log("Answer is correct:", isCorrect);
+      console.log("is Answer correct?:", isCorrect);
       console.log("Correct answers:", correctAnswers);
       console.log("Wrong answers:", wrongAnswers);
 
@@ -287,7 +298,10 @@ function skipQuestion() {
       card.disabled = true;
       card.classList.add('used-card');
     });
-    levelDisplay.textContent = "Game over. You've lost your magic!";
+    answerMessage.textContent = "Game over. You've lost your magic!";
+    answerMessage.classList.remove('hidden')
+    answerMessage.classList.remove('fade-in');
+    void answerMessage.offsetWidth;
     playAgainButton.classList.remove('hidden');
   }
 
@@ -296,19 +310,16 @@ function skipQuestion() {
 
     hintText.textContent = '';
     hintText.classList.add('hidden');
-    document.getElementById('question-box').classList.add('hidden');
+    questionText.textContent = 'Question';
     document.getElementById('card-deck').classList.remove('hidden');
   
     cards.forEach(card => {
       card.disabled = false;
       card.classList.remove('used-card');
     });
-  
-    answerButtons.forEach(button => {
-      button.disabled = false;
-      button.classList.remove('disabled');
-    });
-  
+    
+    answerButtons.disable = true;
+    answerButtons.textContent = '?';
     skipButton.disabled = false;
     skipButton.textContent = `Skip (${skipRemain} left)`;
     hintButton.disabled = false;
@@ -334,7 +345,11 @@ function skipQuestion() {
         tickSound.pause();
         tickSound.currentTime = 0;
         disableAnswerButtons();
-        window.alert("⏰ Time’s up! You didn’t answer in time.");
+        answerMessage.textContent = "Time’s up! You didn’t answer in time.";
+        answerMessage.classList.remove('hidden')
+        answerMessage.classList.remove('fade-in');
+        void answerMessage.offsetWidth; 
+        answerMessage.classList.add('fade-in');
       }
     }, 1000);
   }
@@ -380,6 +395,7 @@ hintButton.addEventListener('click', showHint);
 skipButton.addEventListener('click', skipQuestion);
 playAgainButton.addEventListener('click', resetGame);
 
+//event listener to start the game 
 document.getElementById('start-button').addEventListener('click', function() {
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('card-deck').style.display = 'block';
