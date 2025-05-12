@@ -309,6 +309,7 @@ function skipQuestion() {
 
   function resetGame() {
     init(); 
+    playAgainButton.classList.add('hidden');
     console.log('reset works');
 
     hintText.textContent = '';
@@ -332,8 +333,6 @@ function skipQuestion() {
     skipButton.textContent = `Skip (${skipRemain} left)`;
     hintButton.disabled = false;
     hintButton.textContent = `Hints (${hintRemain} left)`;
-
-    playAgainButton.classList.add('hidden');
     answerMessage.classList.add('hidden');
     console.log('reset work too');
   }
@@ -405,7 +404,7 @@ answerButtons.forEach(button => {
 hintButton.addEventListener('click', showHint);
 skipButton.addEventListener('click', skipQuestion);
 playAgainButton.addEventListener('click', () => {
-  console.log('Play Again clicked');
+  console.log('play again click works');
   resetGame();
 });
 //event listener to start the game 

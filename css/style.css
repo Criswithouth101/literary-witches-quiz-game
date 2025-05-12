@@ -230,13 +230,17 @@ h2 {
   cursor: not-allowed;
 }
 #play-again {
+  font-family: "Rye", serif;
   position: fixed;
-  background: rgba(30, 10, 50, 0.95);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(219, 156, 145, 0.95);
   color: #fff;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
+  font-size: 2rem;  align-items: center;
   justify-content: center;
+  z-index: 9999;
   border: none;
   cursor: pointer;
   text-transform: uppercase;
@@ -246,7 +250,7 @@ h2 {
   background: rgba(50, 20, 70, 0.95);
 }
 .hidden {
-  display: none;
+  display:none;
 }
    /*DISABLED FOR START BUTTON (JS IS SET TO CHANGE AFTER CLICK START */
    .disabled {
