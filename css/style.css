@@ -18,6 +18,19 @@ h2 {
   letter-spacing: 2px;
   text-shadow: 2px 2px 6px rgb(161, 154, 152);
 }
+h3 {
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 6px rgb(161, 154, 152);
+  padding: 0 50px 50px 100px;
+}
+.instructions {
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 6px rgb(161, 154, 152);
+  padding: 0 50px 50px 100px;
+  font-size: 1.2rem;
+}
 #start-screen {
     display: flex;
     flex-direction: column;
@@ -35,11 +48,12 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
     text-shadow: 2px 2px 6px rgb(0, 0, 0);
+    padding: 0 50px 50px 100px;
   }
   #start-button {
     padding: 15px 30px;
     font-size: 1.2rem;
-    background-color: #2f243a;
+    background-color: #533770;
     color: white;
     border: none;
     border-radius: 10px;
@@ -87,9 +101,11 @@ h2 {
     gap: 10px;
     flex-wrap: wrap;
     font-family: "Uncial Antiqua", system-ui;
+    text-shadow: 2px 2px 6px rgb(217, 222, 183);
   }
   #answer-message {
     font-size: 1.5rem;
+    text-shadow: 2px 2px 6px rgb(217, 222, 183);
   }
   
   .card {
@@ -131,18 +147,24 @@ h2 {
   #avatar-name {
     font-size: 1.4rem;
     margin-top: 10px;
+    color: rgb(0, 0, 0);
+    text-shadow: 2px 2px 6px rgb(170, 52, 238);
+    font-family: "Emilys Candy", serif;
   }
 
   #score {
     font-family: "Nosifer", sans-serif;
-    color:indigo
+    color:rgb(199, 147, 122);
+    text-shadow: 2px 2px 6px rgb(163, 21, 21);
+    font-weight: bold;
   }
   
   #level {
     font-size: 1.2rem;
-    font-style: italic;
-    color: #c61c1c;
+    color: #718573;
     margin-top: 5px;
+    font-family: "Eater", serif;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.724);
   }
   #timer-box {
     background: #dfb49f;
@@ -159,7 +181,8 @@ h2 {
   #timer {
     font-size: 15px;
     margin-top: 10px;
-    color: #590a0a;        
+    color: #590a0a;
+    text-shadow: 2px 2px 6px rgb(111, 97, 97);        
   }
 
 #question-box {
@@ -226,7 +249,12 @@ h2 {
   font-family: "Rye", serif;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
+#hint-text {
+  font-family: "Nosifer", sans-serif;
+  color:rgb(199, 147, 122);
+  text-shadow: 2px 2px 6px rgb(163, 21, 21);
+  font-weight: bold;
+}
 #hint-button:hover,
 #skip-button:hover {
   background-color: #5e4a8c;

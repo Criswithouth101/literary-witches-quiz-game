@@ -4,7 +4,7 @@ console.log('Script loaded!');
 const quizQuestions = [
     {
         question: "The Trickery Witch: Who wrote nearly 70 detective novels, making her the most popular novelist in all history?",
-        answers: ["Agatha Christie", "Toni Morrison", "Mary Shelley", "Shirley Jackson"],
+        answers: ["Shirley Jackson", "Toni Morrison", "Agatha Christie","Mary Shelley",],
         correct: "Agatha Christie",
         hint: "British aristocratic world."
       },
@@ -15,10 +15,10 @@ const quizQuestions = [
         hint: "She also wrote 'Jazz'."
       },
       {
-        question: "The Intellectual Witch: Dedicated educator, poet and engaged and committed intellectual who defended the rights of children, women, and the poor; the freedoms of democracy; and the need for peace in times of social, political, and ideological conflicts, not only in Latin America but in the whole world.",
+        question: "The Intellectual Witch: She's the first Latin American author to receive a Nobel Prize in Literature.",
         answers: ["Gabriela Mistral", "Cristina Peri Rossi", "Alejandra Pizarnik", "Ida Vitale"],
         correct: "Gabriela Mistral",
-        hint: "She's the first Latin American author to receive a Novel Prize in Literature."
+        hint: " Dedicated educator, poet, committed intellectual and Human Rights activist for democracy in Latin America."
       },
       {
         question: "The Transition Witch: Select the novel written by Mary Shelly: ",
@@ -33,7 +33,7 @@ const quizQuestions = [
         hint: "One of the most influential 20th-century modernist authors."
       },
       {
-        question: "The Rebel Witch: Iranian poet Forugh Farrokhzad is known for resisting societal forms. She was the first Persian poet to write about sexuality. But also, she directed an award-winning documentary about life and suffering in a leper colony. What's the documentary's name?",
+        question: "The Rebel Witch: Iranian poet Forugh Farrokhzad resisted societal forms, writing about sexuality and directing an award-winning documentary about life and suffering in a leper colony. What's the documentary's name?",
         answers: ["Dark Sky", "Isolation", "The House Is Black", "Hospice Colony"],
         correct: "The House Is Black",
         hint: "Filmend in 1963, the film is in colours Black and white."
@@ -45,7 +45,7 @@ const quizQuestions = [
         hint: "She wrote 'The House of Spirits'."
       },
       {
-        question: " The Transformation Witch: Yumiko Kurahashi's work was influenced by Kafka and experimental fiction, questioning prevailing societal norms on sexual relations, violence and social order. Which of the following was her first English-translated antinovels? ",
+        question: " The Transformation Witch: Yumiko Kurahashi's work was influenced by Kafka and experimental fiction, questioning prevailing societal norms on sexuality, violence and social order. Can you guess her first English-translated antinovel? ",
         answers: ["The Woman with the Flying Head", "Sweet Bean Paste", "Tokyo Blues", "Heaven"],
         correct: "The Woman with the Flying Head",
         hint: "Think bizarre. Freaking out Kafka-style."
@@ -54,7 +54,7 @@ const quizQuestions = [
 ];
 
 const witchAvatars = [
-    { img: 'pics/witch1.jpeg', label: 'Initiate Witch' },
+    { img: 'pics/witchy.png', label: 'Apprentice Witch' },
     { img: 'pics/witch2.jpeg', label: 'Forest Witch' },
     { img: 'pics/witch3.jpeg', label: 'Storm Witch' },
     { img: 'pics/witch4.jpeg', label: 'Oracle Witch' },
@@ -62,9 +62,9 @@ const witchAvatars = [
   ];
   
   const humanAvatars = [
-    { img: 'pics/human1.jpeg', label: 'Confused Human' },
-    { img: 'pics/human2.svg', label: 'Normal Human' },
-    { img: 'pics/human3.jpeg', label: 'A Pilgrim' }
+    { img: 'pics/humans/human1.jpeg', label: 'Confused, Human?' },
+    { img: 'pics/humans/human2.jpeg', label: 'Too Normal, Human' },
+    { img: 'pics/humans/human3.jpeg', label: 'Really? A Pilgrim?' }
   ];
 const tarotCards = [
   { img: 'pics/tarot-cards/tarot-chariot.jpeg', label: 'The Chariot'},
@@ -109,7 +109,6 @@ const questionText = document.getElementById('question-text');
 /*-------------------------------- Functions --------------------------------*/
 function init() {
     console.log('calling the function that loads the page', cards);
-    playerAvatar = 'Initiate Witch';
     correctAnswers = 0;
     wrongAnswers = 0;
     skipRemain = 3;
@@ -232,8 +231,8 @@ function skipQuestion() {
   
   function updateAvatar() {
     scoreDisplay.textContent = `Correct: ${correctAnswers} | Wrong: ${wrongAnswers}`;
-  
-    const maxWrongs = humanAvatars.length;
+    console.log('updating the avatar');
+    const maxWrongs = 3;
   
 
     if (wrongAnswers >= maxWrongs && correctAnswers === 0) {
@@ -257,10 +256,11 @@ function skipQuestion() {
         levelDisplay.textContent = 'You’ve reached the Supreme Coven Level: Hecate!';
         backgroundSound.pause();
         winSound.play();
-        triggerSparkleEffect();
+        triggerSparkleEffect(5, 800);
       } else {
-        levelDisplay.textContent = witch.label;
+        levelDisplay.textContent = 'Magic in the A-I-R. You level up!';
       }
+      return;
     }
   
     if (wrongAnswers > 0) {
@@ -269,7 +269,6 @@ function skipQuestion() {
       avatarImage.innerHTML = `<img src="${human.img}" alt="Human Avatar">`;
       avatarName.textContent = human.label;
       levelDisplay.textContent = 'Your magic flickers... stay sharp!';
-      return;
     }
   
   }
@@ -354,6 +353,7 @@ function skipQuestion() {
         tickSound.pause();
         tickSound.currentTime = 0;
         disableAnswerButtons();
+        stopTimer();
         answerMessage.textContent = "Time’s up! You didn’t answer in time.";
         answerMessage.classList.remove('hidden')
         answerMessage.classList.remove('fade-in');
@@ -373,7 +373,10 @@ function skipQuestion() {
     backgroundSound.loop = true;
   }
 
-    function triggerSparkleEffect() {
+  function triggerSparkleEffect(times = 3, interval = 600) {
+    let count = 0;
+  
+    function sparkleBurst() {
       const container = document.getElementById('sparkle-container');
       for (let i = 0; i < 30; i++) {
         const sparkle = document.createElement('div');
@@ -381,13 +384,28 @@ function skipQuestion() {
         sparkle.style.top = `${Math.random() * 100}%`;
         sparkle.style.left = `${Math.random() * 100}%`;
         container.appendChild(sparkle);
-    
+  
         setTimeout(() => {
           sparkle.remove();
         }, 1000);
       }
-      console.log('sparks in');
+  
+      count++;
+      if (count < times) {
+        setTimeout(sparkleBurst, interval);
+      }
     }
+  
+    sparkleBurst();
+  
+    // button showing up until after all sparkles are done
+    const totalDelay = (times - 1) * interval + 1000;
+    setTimeout(() => {
+      playAgainButton.classList.remove('hidden');
+    }, totalDelay);
+  };
+  
+  
     
 
 /*----------------------------- Event Listeners -----------------------------*/
