@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Cinzel', serif;
-    background-color: #1a1a1a;
+    background-image: url('../pics/pattern.png');
     color: #f4f4f4;
     text-align: center;
 }
@@ -11,26 +11,30 @@ h1 {
   font-family: "Emilys Candy", serif;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-shadow: 2px 2px 6px rgb(217, 222, 183);
 }
 h2 {
   font-family: "Emilys Candy", serif;
   letter-spacing: 2px;
+  text-shadow: 2px 2px 6px rgb(161, 154, 152);
 }
 #start-screen {
     display: flex;
     flex-direction: column;
     align-items:center;
     justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    background-image: url('../pics/start-background.jpeg'); /*FIX THIS!!!!!!*/
-    background-size: cover;
-    background-position:center;
+    background-image: url('../pics/start-background.jpeg');
+    background-size:cover;
   }
   #start-screen h1 {
     font-family: "Uncial Antiqua", system-ui;
     font-size: 2.5rem;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 6px black;
+    text-shadow: 2px 2px 6px rgb(0, 0, 0);
   }
   #start-button {
     padding: 15px 30px;
@@ -128,11 +132,16 @@ h2 {
     font-size: 1.4rem;
     margin-top: 10px;
   }
+
+  #score {
+    font-family: "Nosifer", sans-serif;
+    color:indigo
+  }
   
-  #level-display {
+  #level {
     font-size: 1.2rem;
     font-style: italic;
-    color: #040404;
+    color: #c61c1c;
     margin-top: 5px;
   }
   #timer-box {
@@ -143,7 +152,7 @@ h2 {
     font-family: "Nosifer", sans-serif;
   }
   #timer-box:hover, #timer:hover {
-  background-color: #8c8895;
+  background-color: #2a2a2a;
   color:#370758;
   transform: scale(1.05);
 }
@@ -238,7 +247,8 @@ h2 {
   height: 100vh;
   background: rgba(219, 156, 145, 0.95);
   color: #fff;
-  font-size: 2rem;  align-items: center;
+  font-size: 2rem;  
+  align-items: center;
   justify-content: center;
   z-index: 9999;
   border: none;

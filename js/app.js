@@ -384,7 +384,7 @@ function skipQuestion() {
     
         setTimeout(() => {
           sparkle.remove();
-        }, 2000);
+        }, 1000);
       }
       console.log('sparks in');
     }
