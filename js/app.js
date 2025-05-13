@@ -337,7 +337,7 @@ function skipQuestion() {
   }
   
   function startTimer() {
-    timeLeft = 15;
+    timeLeft = 30;
     document.getElementById('timer').textContent = `Time left: ${timeLeft}s`;
   
     tickSound.currentTime = 0; 
